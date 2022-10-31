@@ -1,29 +1,27 @@
 import axios from "axios";
 
-const GET_GREETINGS = "GET_GREETINGS";
-const base_url = "http://127.0.0.1:3001/messages";
-const message = "";
-export const getMessage = (message) => ({
-  type: GET_GREETINGS,
+const base_url = "http://127.0.0.1:3000/message";
+const GET_MESSAGES = "GET_MESSAGES";
+
+const getMessage = (message) => ({
+  type: GET_MESSAGES,
   payload: message,
 });
 
-export const getMessages = () => (dispatch) => {
-  console.log("asdasdasd");
+const getMessages = () => (dispatch) => {
   axios.get(base_url).then((result) => {
-    console.log(result);
-    dispatch(getMessage(result));
+    const greeting = result.data;
+    dispatch(getMessage(greeting));
   });
 };
-const messagesReducer = (state = message, action) => {
+const messagesReducer = (state = "", action) => {
   switch (action.type) {
-    case GET_GREETINGS:
+    case GET_MESSAGES:
       return action.payload;
     default:
       return state;
   }
-  //   console.log(action.payload);
-  //   console.log(state);
 };
 
 export default messagesReducer;
+export { getMessage, getMessages };
